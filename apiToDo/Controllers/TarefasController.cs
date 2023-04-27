@@ -13,7 +13,7 @@ namespace apiToDo.Controllers
     {
         private static Tarefas tarefas = new Tarefas();
 
-        [HttpPost("lstTarefas")]
+        [HttpGet("tarefas")]
         public ActionResult lstTarefas()
         {
             try
@@ -28,7 +28,7 @@ namespace apiToDo.Controllers
             }
         }
 
-        [HttpPost("InserirTarefas")]
+        [HttpPost("tarefas")]
         public ActionResult InserirTarefas([FromBody] TarefaDTO Request)
         {
             try
@@ -44,7 +44,7 @@ namespace apiToDo.Controllers
             }
         }
 
-        [HttpGet("DeletarTarefa")]
+        [HttpDelete("tarefas")]
         public ActionResult DeleteTask([FromQuery] int ID_TAREFA)
         {
             try
