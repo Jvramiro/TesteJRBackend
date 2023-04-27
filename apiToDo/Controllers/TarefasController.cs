@@ -36,7 +36,7 @@ namespace apiToDo.Controllers
             }
 
             catch (Exception ex) {
-                return StatusCode(400, new { msg = $"Ocorreu um erro ao retornar os dados: {ex.Message}" });
+                return StatusCode(404, new { msg = $"Ocorreu um erro ao retornar os dados: {ex.Message}" });
             }
         }
 
@@ -60,7 +60,7 @@ namespace apiToDo.Controllers
             {
                 tarefas.Add(Request);
                 var listaTarefas = tarefas.GetAllTarefas();
-                return StatusCode(200, listaTarefas);
+                return StatusCode(201, listaTarefas);
             }
 
             catch (Exception ex)
