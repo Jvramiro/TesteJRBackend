@@ -74,11 +74,17 @@ namespace apiToDo.Models
         }
 
 
-        public void Add(TarefaDTO Request)
+        public void Add(TarefaDTO tarefa)
         {
             try
             {
-                tarefas.Add(Request);
+                var checkTarefa = tarefas.FirstOrDefault(x => x.ID_TAREFA == tarefa.ID_TAREFA);
+
+                if(checkTarefa != null) {
+                    throw new ArgumentException($"Uma tarefa de Id {tarefa.ID_TAREFA} já existe");
+                }
+
+                tarefas.Add(tarefa);
             }
             catch(Exception ex)
             {
