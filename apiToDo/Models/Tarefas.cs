@@ -31,7 +31,7 @@ namespace apiToDo.Models
                     DS_TAREFA = "Subir Projeto de Teste no GitHub"
                 });
 
-                return new List<TarefaDTO>();
+                return lstTarefas;
             }
             catch(Exception ex)
             {
@@ -40,26 +40,33 @@ namespace apiToDo.Models
         }
 
 
-        public void InserirTarefa(TarefaDTO Request)
+        public List<TarefaDTO> InserirTarefa(TarefaDTO Request)
         {
             try
             {
                 List<TarefaDTO> lstResponse = lstTarefas();
                 lstResponse.Add(Request);
+                return lstResponse;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
-        public void DeletarTarefa(int ID_TAREFA)
+        public List<TarefaDTO> DeletarTarefa(int ID_TAREFA)
         {
             try
             {
                 List<TarefaDTO> lstResponse = lstTarefas();
                 var Tarefa = lstResponse.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
+
+                if(Tarefa == null) {
+                    throw new ArgumentException("Id não encontrado");
+                }
+
                 TarefaDTO Tarefa2 = lstResponse.Where(x=> x.ID_TAREFA == Tarefa.ID_TAREFA).FirstOrDefault();
                 lstResponse.Remove(Tarefa2);
+                return lstResponse;
             }
             catch(Exception ex)
             {
