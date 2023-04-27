@@ -18,7 +18,7 @@ namespace apiToDo.Models
 
             tarefas.Add(new TarefaDTO {
                 ID_TAREFA = 2,
-                DS_TAREFA = "Fazer Atividad Faculdade"
+                DS_TAREFA = "Fazer Atividade Faculdade"
             });
 
             tarefas.Add(new TarefaDTO {
@@ -53,17 +53,24 @@ namespace apiToDo.Models
         }
         public void DeletarTarefa(int ID_TAREFA)
         {
+            //Tratativa de erro para não parar a operação por falhas no códigos seguintes
             try
             {
-                var Tarefa = tarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
+                //Declaração de variavel tarefa utilizando em sua declaração uma expressão Lambda
+                //Utilizando FirstOrDefault para verificar se existe na lista um objeto com a propriedade
+                //ID_TAREFA igual para retornar
+                //Caso contrario retornar nulo
+                var tarefa = tarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
 
-                if(Tarefa == null) {
-                    throw new ArgumentException("Id não encontrado");
+                //Caso for nulo retorna o erro especificando que foi por nao existir este ID na lista
+                if(tarefa == null) {
+                    throw new ArgumentException($"Id {ID_TAREFA} não encontrado na lista");
                 }
 
-                TarefaDTO Tarefa2 = tarefas.Where(x=> x.ID_TAREFA == Tarefa.ID_TAREFA).FirstOrDefault();
-                tarefas.Remove(Tarefa2);
+                //Caso a tarefa existir remove diretamente da lista
+                tarefas.Remove(tarefa);
             }
+            //Caso ocorra uma falha no Try é retornado o parametro ex que contem o motivo da falha
             catch(Exception ex)
             {
                 throw ex;
