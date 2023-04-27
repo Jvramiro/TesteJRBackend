@@ -27,7 +27,7 @@ namespace apiToDo.Models
             });
         }
 
-        public List<TarefaDTO> lstTarefas()
+        public List<TarefaDTO> GetAllTarefas()
         {
             try
             {
@@ -39,8 +39,42 @@ namespace apiToDo.Models
             }
         }
 
+        public TarefaDTO GetById(int ID_TAREFA) {
+            try {
+                var tarefa = tarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
 
-        public void InserirTarefa(TarefaDTO Request)
+                if (tarefa == null) {
+                    throw new ArgumentException($"Id {ID_TAREFA} não encontrado na lista");
+                }
+
+                return tarefa;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public void Update(TarefaDTO updatedTarefa) {
+            try {
+                int ID_TAREFA = updatedTarefa.ID_TAREFA;
+
+                var tarefa = tarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
+
+                if (tarefa == null) {
+                    throw new ArgumentException($"Id {ID_TAREFA} não encontrado na lista");
+                }
+
+                tarefa.ID_TAREFA = updatedTarefa.ID_TAREFA;
+                tarefa.DS_TAREFA = updatedTarefa.DS_TAREFA;
+
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
+        public void Add(TarefaDTO Request)
         {
             try
             {
@@ -51,7 +85,7 @@ namespace apiToDo.Models
                 throw ex;
             }
         }
-        public void DeletarTarefa(int ID_TAREFA)
+        public void Delete(int ID_TAREFA)
         {
             //Tratativa de erro para não parar a operação por falhas no códigos seguintes
             try

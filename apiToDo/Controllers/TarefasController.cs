@@ -14,11 +14,11 @@ namespace apiToDo.Controllers
         private static Tarefas tarefas = new Tarefas();
 
         [HttpGet("tarefas")]
-        public ActionResult lstTarefas()
+        public ActionResult GetAllTarefas()
         {
             try
             {
-                var listaTarefas = tarefas.lstTarefas();
+                var listaTarefas = tarefas.GetAllTarefas();
                 return StatusCode(200, listaTarefas);
             }
 
@@ -28,13 +28,38 @@ namespace apiToDo.Controllers
             }
         }
 
+        [HttpGet("tarefas/{id}")]
+        public ActionResult GetTarefa(int id) {
+            try {
+                var tarefa = tarefas.GetById(id);
+                return StatusCode(200, tarefa);
+            }
+
+            catch (Exception ex) {
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao retornar os dados: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("tarefas")]
+        public ActionResult UpdateTarefa([FromBody] TarefaDTO Request) {
+            try {
+                tarefas.Update(Request);
+                var listaTarefas = tarefas.GetAllTarefas();
+                return StatusCode(200, listaTarefas);
+            }
+
+            catch (Exception ex) {
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao retornar os dados: {ex.Message}" });
+            }
+        }
+
         [HttpPost("tarefas")]
-        public ActionResult InserirTarefas([FromBody] TarefaDTO Request)
+        public ActionResult InsertTarefa([FromBody] TarefaDTO Request)
         {
             try
             {
-                tarefas.InserirTarefa(Request);
-                var listaTarefas = tarefas.lstTarefas();
+                tarefas.Add(Request);
+                var listaTarefas = tarefas.GetAllTarefas();
                 return StatusCode(200, listaTarefas);
             }
 
@@ -49,8 +74,8 @@ namespace apiToDo.Controllers
         {
             try
             {
-                tarefas.DeletarTarefa(ID_TAREFA);
-                var listaTarefas = tarefas.lstTarefas();
+                tarefas.Delete(ID_TAREFA);
+                var listaTarefas = tarefas.GetAllTarefas();
                 return StatusCode(200, listaTarefas);
             }
 
