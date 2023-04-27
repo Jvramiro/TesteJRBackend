@@ -11,20 +11,20 @@ namespace apiToDo.Controllers
     [Route("[controller]")]
     public class TarefasController : ControllerBase
     {
+        private static Tarefas tarefas = new Tarefas();
 
         [HttpPost("lstTarefas")]
         public ActionResult lstTarefas()
         {
             try
             {
-                var tarefas = new Tarefas();
-                List<TarefaDTO> lstTarefas = tarefas.lstTarefas();
-                return StatusCode(200, lstTarefas);
+                var listaTarefas = tarefas.lstTarefas();
+                return StatusCode(200, listaTarefas);
             }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro ao retornar os dados {ex.Message}"});
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao retornar os dados: {ex.Message}"});
             }
         }
 
@@ -33,14 +33,14 @@ namespace apiToDo.Controllers
         {
             try
             {
-                var tarefas = new Tarefas();
-                List<TarefaDTO> lstTarefas = tarefas.InserirTarefa(Request);
-                return StatusCode(200, lstTarefas);
+                tarefas.InserirTarefa(Request);
+                var listaTarefas = tarefas.lstTarefas();
+                return StatusCode(200, listaTarefas);
             }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro ao adicionar os dados {ex.Message}" });
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao adicionar os dados: {ex.Message}" });
             }
         }
 
@@ -49,14 +49,14 @@ namespace apiToDo.Controllers
         {
             try
             {
-                var tarefas = new Tarefas();
-                List<TarefaDTO> lstTarefas = tarefas.DeletarTarefa(ID_TAREFA);
-                return StatusCode(200, lstTarefas);
+                tarefas.DeletarTarefa(ID_TAREFA);
+                var listaTarefas = tarefas.lstTarefas();
+                return StatusCode(200, listaTarefas);
             }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro ao deleter os dados {ex.Message}" });
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao deletar os dados: {ex.Message}" });
             }
         }
     }
